@@ -25,13 +25,17 @@ const ariaLabels = {
 const isMounted = ref(false);
 
 const barStyle = ref({ transform: "" });
-const ITEM_WIDTH = 128;
 
 const { isDarkTheme, hasScrolledIntoView } = useHeaderTheme();
 
+const getItemWidth = () => {
+  return window.innerWidth < 480 ? 80 : window.innerWidth < 840 ? 100 : 128;
+};
+
 const updateBarPosition = () => {
   const index = sections.indexOf(activeLink.value as ActiveLink);
-  const left = index * ITEM_WIDTH;
+  const itemWidth = getItemWidth();
+  const left = index * itemWidth;
   barStyle.value = {
     transform: `translateX(${left}px)`,
   };
@@ -103,7 +107,7 @@ onMounted(() => {
   height: var(--height-header);
   align-items: center;
   justify-content: center;
-  display: none;
+  display: flex;
   opacity: 0;
   transition:
     opacity 0.3s ease-in-out,
@@ -115,10 +119,6 @@ onMounted(() => {
 
   &-mounted {
     opacity: 1;
-  }
-
-  @include mixins.mq("lg") {
-    display: flex;
   }
 
   &-links {
@@ -143,7 +143,7 @@ onMounted(() => {
     top: 3px;
     left: 3px;
     height: calc(100% - 6px);
-    width: 128px;
+    width: 80px;
     background: var(--color-orange-400);
     border-radius: 100px;
     transition:
@@ -152,6 +152,14 @@ onMounted(() => {
       background-color 0.1s ease-in-out;
     z-index: 1;
     opacity: 0;
+
+    @include mixins.mq("sm") {
+      width: 100px;
+    }
+
+    @include mixins.mq("md") {
+      width: 128px;
+    }
 
     &-dark {
       background-color: var(--color-cyan-500);
@@ -170,10 +178,20 @@ onMounted(() => {
     border: none;
     background: none;
     transition: color 0.1s ease-in-out;
-    font-size: var(--font-size-md);
-    width: 128px;
+    font-size: 11px;
+    width: 80px;
     white-space: nowrap;
     text-transform: uppercase;
+
+    @include mixins.mq("sm") {
+      font-size: 13px;
+      width: 100px;
+    }
+
+    @include mixins.mq("md") {
+      font-size: var(--font-size-md);
+      width: 128px;
+    }
 
     &-active {
       color: var(--color-white-400);

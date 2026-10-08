@@ -10,7 +10,7 @@
       cx="128"
       cy="101"
       r="15"
-      fill="var(--icon-color)"
+      fill="var(--icon-color, currentColor)"
       stroke="var(--icon-color)"
       stroke-width="var(--stroke-md)"
       vector-effect="non-scaling-stroke"
